@@ -1,10 +1,3 @@
-# Features to add
-# delete directories if present when program is run for the first time
-# Bugs to Fix
-# not reteriving some articles when category is different
-# handle invalid user input
-
-
 import string
 import requests
 from bs4 import BeautifulSoup
