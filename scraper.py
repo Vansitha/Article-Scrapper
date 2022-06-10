@@ -30,11 +30,12 @@ def save_articles(total_pages, article_category):
         new_dir_name = f'Page_{page_num+1}'
         os.mkdir(new_dir_name)
         response = requests.get(URL + str(page_num+1))
+        
         if response.status_code == 200:
             soup1 = BeautifulSoup(response.content, 'html.parser')
             all_articles = soup1.find_all('article')
-
             article_count = 1
+            
             for article in all_articles:
                 category = article.find('span', {'data-test': 'article.type'}).text.strip()
 
@@ -50,20 +51,15 @@ def save_articles(total_pages, article_category):
                         article_text = soup2.find_all('div', {'class': 'c-article-body u-clearfix'})
 
                         if len(article_text) != 0:
-
                             for para in article_text:
                                 with open(f'./{new_dir_name}/{clean_title}.txt', 'wb') as file:
                                     file.write(bytes(para.text.strip(), encoding='UTF-8'))
                                     print(f'> Saved Article From Page: {page_num+1} | Title: {article_title}')
                                     article_count += 1
-                        
                         else:
                             print(f'> Content Unavailable | Page: {page_num+1} | Title: {article_title} ')
-
-
                     else:
                         print('Error Retrieving Article!')
-
         else:
             print(f"\nThe URL returned {response.status_code}!")
             article_list = None
